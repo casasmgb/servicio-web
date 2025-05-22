@@ -14,5 +14,7 @@ route.get('/api/productos', controller.obtenerTodos)
 route.get('/api/productos/:idFiltro', controller.obtenerPorId)
 route.post('/api/productos', controller.crearProducto)
 route.post('/api/productos-verificados', controller.crearProductoVerificado)
+route.put('/api/productos', controller.modificarProducto)
+route.delete('/api/productos/:id', controller.eliminarProducto)
 
 module.exports = route

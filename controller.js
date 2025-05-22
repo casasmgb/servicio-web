@@ -107,11 +107,42 @@ async function crearProductoVerificado(req, res) {
     res.status(201).json(nuevo_productos)
 }
 
+async function modificarProducto(req, res) {
+    // req.body => id
+    const body = req.body
+    const productoEncontrado = productos.find(f=> f.id === parseInt(body.id))
+    if (!productoEncontrado) {
+        return res.status(404).json({error: 'El producto no se encontro.'})
+    }
 
+    if (body.nombre && productoEncontrado.nombre != body.nombre ) {
+        productoEncontrado.nombre = body.nombre
+    }
+    if (body.precio && productoEncontrado.precio != body.precio ) {
+        productoEncontrado.precio = body.precio
+    }
+    if (body.categoria && productoEncontrado.categoria != body.categoria ) {
+        productoEncontrado.categoria = body.categoria
+    }
+    res.status(200).json(productoEncontrado)
+}
+
+async function eliminarProducto(req, res) {
+    const params = req.params
+    const productoEncontradoIdx = productos.findIndex(f=> f.id === parseInt(params.id))
+    if(productoEncontradoIdx == -1) {
+        return res.status(404).json({error: 'El producto no se encontro.'})
+    }
+
+    const productoEliminado = productos.splice(productoEncontradoIdx, 1)
+    res.status(200).json(productoEliminado[0])
+}
 
 module.exports = {
     obtenerTodos,
     obtenerPorId,
     crearProducto,
-    crearProductoVerificado
+    crearProductoVerificado,
+    modificarProducto,
+    eliminarProducto,
 }
